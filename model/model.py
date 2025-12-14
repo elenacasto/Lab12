@@ -50,16 +50,9 @@ class Model:
         :return: il peso minimo degli archi nel grafo
         :return: il peso massimo degli archi nel grafo
         """
-
-        if self.G.number_of_edges() == 0:
-            return None, None
-
         pesi = [data['weight'] for _,_,data in self.G.edges(data=True)]
 
-        peso_min = min(pesi)
-        peso_max = max(pesi)
-
-        return peso_min, peso_max
+        return min(pesi), max(pesi)
 
     def count_edges_by_threshold(self, soglia):
         """
@@ -81,4 +74,42 @@ class Model:
         return count_min, count_max
 
     """Implementare la parte di ricerca del cammino minimo"""
-    # TODO
+
+    def get_shortest_path(self, soglia : float):
+
+        sottografo = nx.Graph() #costruisco un sottografo con archi peso > soglia
+
+        for u, v, data in self.G.edges(data=True):
+            if data["weight"] > soglia:
+                sottografo.add_edge(u, v, weight=data["weight"])
+
+        if sottografo.number_of_nodes() < 3:
+            return []
+
+        best_path = []
+        best_cost = float("inf")
+
+        for source in sottografo.nodes:
+            for target in sottografo.nodes:
+                if source == target:
+                    continue
+
+                try:
+                    path = nx.shortest_path(sottografo, source, target, weight='weight')
+                    if len(path) < 3:
+                        continue
+
+                    #costo del cammino implicito nella definizione di cammino minimo
+                    costo = 0
+                    for i in range(len(path) - 1):
+                        costo += sottografo[path[i]][path[i + 1]]['weight']
+
+                    if costo < best_cost:
+                        best_cost = costo
+                        best_path = path
+
+                except nx.NetworkXNoPath:
+                    continue
+
+        return best_path
+
