@@ -61,7 +61,6 @@ class Model:
         :return minori: archi con peso < soglia
         :return maggiori: archi con peso > soglia
         """
-
         count_min = 0
         count_max = 0
 
@@ -89,8 +88,8 @@ class Model:
         best_path = []
         best_cost = float("inf")
 
-        for source in sottografo.nodes:
-            for target in sottografo.nodes:
+        for source in sottografo.nodes: #rifugio di partenza
+            for target in sottografo.nodes: #rifugio di arrivo
                 if source == target:
                     continue
 
