@@ -1,0 +1,14 @@
+Il cammino minimo è calcolato tramite l’algoritmo di Dijkstra,
+invocato indirettamente attraverso la funzione shortest_path di NetworkX,
+utilizzando come peso degli archi il prodotto tra distanza e fattore di difficoltà.
+In alternativa, NetworkX potrebbe usare una variante equivalente basata su Dijkstra,
+ma il principio rimane invariato.
+
+costo del cammino implicito nella definizione di cammino minimo,
+(l’algoritmo di Dijkstra minimizza automaticamente
+la somma dei pesi degli archi)
+
+Il cammino minimo viene ricercato su un grafo filtrato che
+contiene esclusivamente archi con peso maggiore della soglia.
+Sul grafo risultante viene applicato l’algoritmo di Dijkstra;
+il cammino ottenuto è considerato valido solo se contiene almeno due archi.
